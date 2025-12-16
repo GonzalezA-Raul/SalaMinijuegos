@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Piedra Papel Tijera (WebSockets)</title>
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+  <main class="card">
+    <h1>Piedra · Papel · Tijera</h1>
+
+    <div class="row">
+      <button id="btnCreate">Crear sala</button>
+      <input id="roomCode" placeholder="CÓDIGO SALA" maxlength="6" />
+      <button id="btnJoin">Unirme</button>
+    </div>
+
+    <p id="info">Conectando...</p>
+
+    <div class="row">
+      <button class="choice" data-choice="rock" disabled>🪨 Piedra</button>
+      <button class="choice" data-choice="paper" disabled>📄 Papel</button>
+      <button class="choice" data-choice="scissors" disabled>✂️ Tijera</button>
+    </div>
+
+    <pre id="log"></pre>
+  </main>
+
+  <script src="/src/main.js"></script>
+</body>
+</html>

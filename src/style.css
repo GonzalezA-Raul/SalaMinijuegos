@@ -1,0 +1,7 @@
+body { font-family: system-ui, Arial; margin: 0; padding: 24px; background: #f6f7fb; }
+.card { max-width: 760px; margin: 0 auto; background: white; padding: 16px; border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,.08); }
+.row { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0; }
+button { padding: 10px 12px; border-radius: 10px; border: 1px solid #ddd; background: #fafafa; cursor: pointer; }
+button:disabled { opacity: .5; cursor: not-allowed; }
+input { padding: 10px 12px; border-radius: 10px; border: 1px solid #ddd; }
+pre { background: #0f172a; color: #e2e8f0; padding: 12px; border-radius: 12px; overflow: auto; min-height: 140px; }
