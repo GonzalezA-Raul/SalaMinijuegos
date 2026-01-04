@@ -1,7 +1,112 @@
 body { font-family: system-ui, Arial; margin: 0; padding: 24px; background: #f6f7fb; }
 .card { max-width: 760px; margin: 0 auto; background: white; padding: 16px; border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,.08); }
 .row { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0; }
-button { padding: 10px 12px; border-radius: 10px; border: 1px solid #ddd; background: #fafafa; cursor: pointer; }
+button { padding: 10px 12px; border-radius: 10px; border: 1px solid #ddd; background: #fafafa; cursor: pointer; transition: all .2s; }
+button:hover:not(:disabled) { background: #e0e7ff; border-color: #6366f1; transform: translateY(-2px); }
 button:disabled { opacity: .5; cursor: not-allowed; }
 input { padding: 10px 12px; border-radius: 10px; border: 1px solid #ddd; }
-pre { background: #0f172a; color: #e2e8f0; padding: 12px; border-radius: 12px; overflow: auto; min-height: 140px; }
+pre { background: #0f172a; color: #e2e8f0; padding: 12px; border-radius: 12px; overflow: auto; max-height: 200px; font-size: 11px; }
+
+/* Marcador */
+#scoreboard { display: flex; justify-content: space-around; align-items: center; gap: 20px; margin: 24px 0; padding: 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 16px; color: white; }
+.player-score { text-align: center; flex: 1; }
+.player-label { font-size: 14px; opacity: 0.9; margin-bottom: 8px; }
+.player-id-small { font-size: 11px; opacity: 0.7; }
+.score-display { font-size: 48px; font-weight: bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+.player-choice { font-size: 64px; margin-top: 12px; min-height: 80px; display: flex; align-items: center; justify-content: center; }
+.vs { font-size: 24px; font-weight: bold; opacity: 0.7; }
+
+/* Resultado de ronda */
+.round-result { min-height: 60px; margin: 16px 0; padding: 16px; border-radius: 12px; text-align: center; font-size: 20px; font-weight: bold; transition: all .3s; }
+.round-result.win { background: #10b981; color: white; animation: pulse .5s; }
+.round-result.lose { background: #ef4444; color: white; animation: pulse .5s; }
+.round-result.draw { background: #f59e0b; color: white; animation: pulse .5s; }
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.choice { font-size: 18px; flex: 1; min-width: 140px; }
+
+details { margin-top: 16px; }
+summary { cursor: pointer; padding: 8px; background: #f1f5f9; border-radius: 8px; margin-bottom: 8px; }
+
+/* Selector de juego */
+#gameSelector { margin: 20px 0; padding: 16px; background: #f8fafc; border-radius: 12px; }
+#gameSelector h3 { margin-top: 0; color: #334155; }
+.game-select-btn { flex: 1; font-size: 16px; padding: 16px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; font-weight: bold; }
+.game-select-btn:hover { transform: translateY(-3px); box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4); }
+
+/* 3 en Raya */
+#tttGame { margin: 20px 0; }
+.ttt-info { text-align: center; margin-bottom: 16px; font-size: 18px; font-weight: bold; color: #334155; }
+.ttt-board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; max-width: 400px; margin: 0 auto; }
+.ttt-cell { aspect-ratio: 1; font-size: 48px; border: 3px solid #cbd5e1; background: white; border-radius: 12px; cursor: pointer; transition: all .2s; }
+.ttt-cell:hover:not(:disabled) { background: #f1f5f9; border-color: #6366f1; transform: scale(1.05); }
+.ttt-cell:disabled { cursor: not-allowed; opacity: 0.7; }
+.ttt-cell.winner { background: #10b981; color: white; animation: winPulse 0.5s; }
+
+@keyframes winPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.reset-btn { display: block; margin: 10px auto; padding: 12px 24px; background: #6366f1; color: white; border: none; font-weight: bold; font-size: 16px; }
+
+.ttt-buttons { display: flex; flex-direction: column; align-items: center; gap: 10px; margin-top: 16px; }
+
+.change-game-btn { display: block; margin: 20px auto; padding: 12px 24px; background: #64748b; color: white; border: none; font-weight: bold; font-size: 14px; border-radius: 10px; cursor: pointer; transition: all .2s; }
+.change-game-btn:hover { background: #475569; transform: translateY(-2px); }
+
+#rpsPlayAgain { text-align: center; }
+
+/* Par o Impar */
+#oeGame { margin: 20px 0; }
+.oe-info { text-align: center; margin-bottom: 16px; font-size: 18px; font-weight: bold; color: #334155; }
+.oe-parity-buttons { justify-content: center; gap: 16px; }
+.oe-btn { flex: 0 1 180px; font-size: 20px; padding: 20px 24px; border: none; font-weight: bold; border-radius: 12px; cursor: pointer; transition: all .2s; }
+.oe-even { background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); color: white; }
+.oe-odd { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: white; }
+.oe-btn:hover:not(:disabled) { transform: translateY(-3px) scale(1.05); box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+.oe-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+.oe-your-choice { text-align: center; font-size: 16px; margin-bottom: 12px; color: #475569; }
+.oe-your-choice span { font-weight: bold; color: #6366f1; }
+
+.oe-number-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; max-width: 350px; margin: 0 auto; }
+.oe-number { aspect-ratio: 1; font-size: 24px; font-weight: bold; border: 3px solid #cbd5e1; background: white; border-radius: 12px; cursor: pointer; transition: all .2s; }
+.oe-number:hover:not(:disabled) { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-color: #667eea; transform: scale(1.1); }
+.oe-number:disabled { opacity: 0.5; cursor: not-allowed; }
+
+#oePlayAgain { text-align: center; margin-top: 16px; }
+
+/* Dots and Boxes */
+#dabGame { margin: 20px 0; }
+.dab-info { text-align: center; margin-bottom: 16px; }
+.dab-info p { font-size: 18px; font-weight: bold; color: #334155; margin: 0 0 8px 0; }
+.dab-scores { display: flex; justify-content: center; gap: 24px; font-size: 16px; font-weight: bold; }
+.dab-score-me { color: #3b82f6; }
+.dab-score-rival { color: #ef4444; }
+
+.dab-board { display: grid; grid-template-columns: repeat(7, auto); grid-template-rows: repeat(7, auto); gap: 0; justify-content: center; align-items: center; max-width: 320px; margin: 0 auto; }
+.dab-dot { width: 12px; height: 12px; background: #334155; border-radius: 50%; }
+.dab-hline { width: 60px; height: 12px; background: transparent; border: none; cursor: pointer; border-radius: 6px; transition: all .15s; }
+.dab-hline:hover:not(:disabled):not(.taken) { background: rgba(99, 102, 241, 0.4); }
+.dab-hline.taken { cursor: default; }
+.dab-hline.taken.mine { background: #3b82f6; }
+.dab-hline.taken.rival { background: #ef4444; }
+.dab-hline:disabled { cursor: not-allowed; opacity: 0.5; }
+.dab-vline { width: 12px; height: 60px; background: transparent; border: none; cursor: pointer; border-radius: 6px; transition: all .15s; }
+.dab-vline:hover:not(:disabled):not(.taken) { background: rgba(99, 102, 241, 0.4); }
+.dab-vline.taken { cursor: default; }
+.dab-vline.taken.mine { background: #3b82f6; }
+.dab-vline.taken.rival { background: #ef4444; }
+.dab-vline:disabled { cursor: not-allowed; opacity: 0.5; }
+.dab-box { width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; border-radius: 4px; transition: background .2s; }
+.dab-box.mine { background: rgba(59, 130, 246, 0.3); color: #3b82f6; }
+.dab-box.rival { background: rgba(239, 68, 68, 0.3); color: #ef4444; }
+
+#dabPlayAgain { text-align: center; margin-top: 16px; }
+
+.game-row { justify-content: center; }

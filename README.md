@@ -1,4 +1,4 @@
-# 🪨📄✂️ Piedra, Papel o Tijera - Multijugador WebSocket
+# 🎮 Sala de Juegos Multijugador - WebSocket
 
 <div align="center">
 
@@ -8,231 +8,314 @@
 [![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=flat-square&logo=docker)](https://www.docker.com/)
 [![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
 
-Juego multijugador de **Piedra, Papel o Tijera** usando WebSockets para comunicación en tiempo real.  
-Juega contra amigos en la misma red local sin complicaciones. 🎮
+**Sala de juegos multijugador** con 4 minijuegos usando WebSockets para comunicación en tiempo real.  
+Juega contra amigos en la misma red local o despliega con Docker. 🎮
 
-[Características](#características) • [Instalación](#instalación-local) • [Docker](#-docker) • [API](#-api-websocket) • [FAQ](#-troubleshooting)
+[Juegos](#-juegos-disponibles) • [Instalación](#-instalación-local) • [Docker](#-docker) • [Red Local](#-jugar-en-red-local)
 
 </div>
 
 ---
 
+## 🎯 Juegos Disponibles
+
+### 🪨📄✂️ Piedra, Papel o Tijera
+El clásico juego de manos. Elige tu opción y espera a que tu rival elija la suya. ¡El ganador suma un punto!
+
+### ⭕❌ 3 en Raya (Tic-Tac-Toe)
+Coloca 3 símbolos en línea (horizontal, vertical o diagonal) para ganar. Turnos alternados.
+
+### 🔢 Par o Impar
+1. Cada jugador elige si quiere **PAR** o **IMPAR**
+2. Cada jugador elige un número del **1 al 10**
+3. Se suman los números: si la suma es par, gana quien eligió PAR; si es impar, gana quien eligió IMPAR
+
+### 🔳 Puntos y Cajas (Dots and Boxes)
+1. Cuadrícula de 4x4 puntos (9 cajas posibles)
+2. Por turnos, dibuja una línea entre dos puntos adyacentes
+3. **Si cierras una caja**, la anotas y **juegas otra vez**
+4. Gana quien cierra más cajas
+
+---
+
 ## ✨ Características
 
+- ✅ **4 minijuegos** — Variedad para no aburrirse
 - ✅ **Multijugador en tiempo real** — Comunicación instantánea vía WebSockets
-- ✅ **Salas dinámicas** — Crea o únete a salas con códigos únicos (6 caracteres)
-- ✅ **Sin servidor externo** — Todo funciona localmente en tu PC o servidor
-- ✅ **Docker ready** — Despliega en minutos con un simple comando
+- ✅ **Salas con códigos** — Crea o únete con códigos de 6 caracteres
+- ✅ **Selector de juegos** — Cambia de juego sin salir de la sala
+- ✅ **Marcador visual** — Puntuación persistente durante la sesión
+- ✅ **Docker ready** — Despliega en minutos
 - ✅ **Red local** — Juega con amigos en la misma WiFi/LAN
-- ✅ **Diseño responsive** — Interfaz limpia y moderna
-- ✅ **Marcador persistente** — Mantiene puntos durante la sesión
+- ✅ **Diseño moderno** — Interfaz limpia con animaciones
 
 ---
 
 ## 📋 Estructura del Proyecto
 
 ```plaintext
-rps-ws/
- ├── server.js # Servidor WebSocket + Express
- ├── index.html # UI principal
- ├── src/ │
- ├── main.js # Lógica cliente WebSocket
- │ └── style.css # Estilos
- ├── package.json
- ├── Dockerfile
- ├── .dockerignore
- └── README.md
+PiedraPapelTijera/
+├── server.js        # Servidor WebSocket + Express (lógica de todos los juegos)
+├── index.html       # UI principal con todos los juegos
+├── src/
+│   ├── main.js      # Lógica cliente WebSocket
+│   └── style.css    # Estilos y animaciones
+├── package.json
+├── Dockerfile
+└── README.md
 ```
 
 ---
 
-## 🎮 Cómo Funciona
+## 🚀 Instalación Local
 
-### Arquitectura
-- **Backend**: Servidor Node.js con Express y WebSocket Server (ws)
-- **Frontend**: HTML/CSS/JavaScript vanilla con WebSocket client
-- **Comunicación**: Protocolo WebSocket bidireccional en tiempo real
+### Requisitos
+- [Node.js](https://nodejs.org/) v18 o superior
+- npm (viene con Node.js)
 
-### Flujo del Juego
-
-1. **Crear/Unirse a Sala**
-   - Un jugador crea una sala (genera código de 6 caracteres)
-   - Otro jugador se une usando ese código
-   - Máximo 2 jugadores por sala
-
-2. **Jugar**
-   - Cuando hay 2 jugadores, se habilitan los botones
-   - Cada jugador elige: Piedra, Papel o Tijera
-   - El servidor determina el ganador automáticamente
-   - Se actualiza el marcador en tiempo real
-
-3. **Sistema de Puntos**
-   - Piedra vence Tijera 🪨 > ✂️
-   - Papel vence Piedra 📄 > 🪨
-   - Tijera vence Papel ✂️ > 📄
-   - Los puntos se acumulan durante la sesión
-
-### Mensajes WebSocket
-
-**Cliente → Servidor:**
-- `create_room`: Crear nueva sala
-- `join_room`: Unirse a sala existente
-- `choice`: Enviar elección (rock/paper/scissors)
-
-**Servidor → Cliente:**
-- `connected`: Confirmación de conexión + ID jugador
-- `room_created`: Sala creada exitosamente
-- `room_joined`: Unido a sala
-- `state`: Estado actual de la sala
-- `result`: Resultado de la ronda
-- `error`: Mensaje de error
-
----
-
-## 🚀 Instalación Local (Sin Docker)
+### Pasos
 
 ```bash
-# Instalar dependencias
+# 1. Clonar o descargar el proyecto
+git clone <tu-repo> && cd PiedraPapelTijera
+
+# 2. Instalar dependencias
 npm install
 
-# Iniciar servidor
+# 3. Iniciar el servidor
 npm start
 ```
 
-Abre [http://localhost:3000](http://localhost:3000) en tu navegador.
+### Abrir en el navegador
+```
+http://localhost:3000
+```
 
 ---
 
-## 🐳 Instalación con Docker
+## 🐳 Docker
 
-### Requisitos Previos
-- Docker instalado en tu PC ([Descargar Docker](https://www.docker.com/))
-- Estar en la misma red local que tu amigo
+### Opción 1: Construir y ejecutar
 
-### Paso 1: Construir la Imagen
 ```bash
-docker build -t rps-game .
+# Construir la imagen
+docker build -t sala-juegos .
+
+# Ejecutar el contenedor
+docker run -d -p 3000:3000 --name juegos sala-juegos
 ```
 
-### Paso 2: Ejecutar el Contenedor
-```bash
-docker run -p 3000:3000 rps-game
+### Opción 2: Con Docker Compose
+
+Crea un archivo `docker-compose.yml`:
+
+```yaml
+version: '3.8'
+services:
+  juegos:
+    build: .
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
 ```
 
-### Paso 3: Jugar en Red Local
+Luego ejecuta:
 
-Encuentra tu IP local:
-
-**Windows (CMD o PowerShell):**
 ```bash
+docker-compose up -d
+```
+
+### Verificar que funciona
+
+```bash
+# Ver logs
+docker logs juegos
+
+# Debería mostrar: Server running on http://localhost:3000
+```
+
+---
+
+## 🌐 Jugar en Red Local
+
+¡Puedes jugar con amigos conectados a la **misma red WiFi o LAN**!
+
+### Paso 1: Obtener tu IP local
+
+**Windows:**
+```powershell
 ipconfig
+# Busca "IPv4 Address" (ej: 192.168.1.50)
 ```
-Busca "Dirección IPv4" (ejemplo: 192.168.1.100)
 
 **Mac/Linux:**
 ```bash
-ifconfig
+ifconfig | grep "inet "
+# O también:
+hostname -I
 ```
 
-**Jugador 1 (anfitrión):**
-- Ejecuta el contenedor Docker
-- Abre en tu navegador: [http://localhost:3000](http://localhost:3000)
-- Haz clic en "Crear sala"
-- Comparte el código de 6 caracteres con tu amigo
-
-**Jugador 2 (invitado):**
-- Abre en tu navegador: [http://IP_DEL_ANFITRION:3000](http://IP_DEL_ANFITRION:3000)
-  Ejemplo: [http://192.168.1.100:3000](http://192.168.1.100:3000)
-- Introduce el código de sala que te compartieron
-- Haz clic en "Unirme"
-
-¡A jugar!
-
----
-
-## 🛠️ Comandos Docker Útiles
+### Paso 2: Iniciar el servidor
 
 ```bash
-# Listar contenedores activos
-docker ps
-
-# Ver logs del contenedor
-docker logs <container_id>
-
-# Reconstruir la imagen sin usar caché
-docker build --no-cache -t rps-game .
+npm start
+# O con Docker:
+docker run -d -p 3000:3000 --name juegos sala-juegos
 ```
+
+### Paso 3: Conectarse desde otros dispositivos
+
+En el navegador de **cualquier dispositivo en la misma red**, abre:
+
+```
+http://<TU-IP-LOCAL>:3000
+
+# Ejemplo:
+http://192.168.1.50:3000
+```
+
+### Paso 4: Crear y unirse a una sala
+
+1. **Jugador 1**: Pulsa "Crear sala" → Comparte el código (ej: `ABC123`)
+2. **Jugador 2**: Introduce el código y pulsa "Unirme"
+3. **¡A jugar!** Seleccionen un juego y disfruten
 
 ---
 
-## 🔧 Configuración Avanzada
+## 🎮 Cómo Jugar
 
-### Cambiar Puerto
+### Flujo del juego
+
+1. **Crear/Unirse** — Un jugador crea sala, otro se une con el código
+2. **Selector** — Cuando hay 2 jugadores, aparece el menú de juegos
+3. **Jugar** — Cada juego tiene sus propias reglas (ver arriba)
+4. **Volver a jugar** — Al terminar, pulsa "Jugar otra ronda"
+5. **Cambiar juego** — Pulsa "Cambiar de juego" para volver al selector
+
+### Controles
+
+| Acción | Descripción |
+|--------|-------------|
+| `Crear sala` | Genera un código único para la sala |
+| `Unirme` | Introduce un código para unirte |
+| `🔄 Cambiar de juego` | Volver al selector de juegos |
+| `🔁 Jugar otra ronda` | Reiniciar el juego actual |
+
+---
+
+## 🔧 Configuración
+
+### Puerto personalizado
+
+Puedes cambiar el puerto con la variable de entorno `PORT`:
+
 ```bash
-docker run -p 8080:3000 rps-game
-```
-Accede en: [http://localhost:8080](http://localhost:8080)
+# Local
+PORT=8080 npm start
 
-### Modo Desarrollo con Volúmenes
+# Docker
+docker run -d -p 8080:8080 -e PORT=8080 --name juegos sala-juegos
+```
+
+### Firewall (Windows)
+
+Si otros dispositivos no pueden conectarse, asegúrate de que el puerto esté abierto:
+
+```powershell
+# Abrir puerto 3000 en el firewall de Windows
+netsh advfirewall firewall add rule name="Sala Juegos" dir=in action=allow protocol=tcp localport=3000
+```
+
+---
+
+## 🛠️ Desarrollo
+
 ```bash
-docker run -p 3000:3000 -v $(pwd):/app rps-game
+# Ejecutar en modo desarrollo (mismo que start)
+npm run dev
+
+# El servidor se ejecuta en http://localhost:3000
+# Los cambios en archivos estáticos se reflejan al recargar el navegador
 ```
 
 ---
 
-## 🛠️ Tecnologías
+## 📡 API WebSocket
 
-- **Node.js v18** — Runtime JavaScript
-- **Express v4.18** — Servidor HTTP
-- **ws v8.14** — WebSocket server/client
-- **Docker** — Containerización
+### Mensajes del Cliente → Servidor
+
+| Tipo | Payload | Descripción |
+|------|---------|-------------|
+| `create_room` | - | Crear nueva sala |
+| `join_room` | `{ roomCode }` | Unirse a sala existente |
+| `select_game` | `{ mode }` | Seleccionar juego (`rps`, `ttt`, `oe`, `dab`) |
+| `choice` | `{ choice }` | Piedra/Papel/Tijera (`rock`, `paper`, `scissors`) |
+| `ttt_move` | `{ cell }` | Movimiento en 3 en raya (0-8) |
+| `oe_parity` | `{ parity }` | Elegir par/impar (`even`, `odd`) |
+| `oe_number` | `{ number }` | Elegir número (1-10) |
+| `dab_move` | `{ lineType, lineIndex }` | Dibujar línea (`h`/`v`, índice) |
+| `reset_*` | - | Reiniciar juego (`reset_ttt`, `reset_oe`, `reset_dab`) |
+| `change_game` | - | Volver al selector |
+
+### Mensajes del Servidor → Cliente
+
+| Tipo | Descripción |
+|------|-------------|
+| `connected` | Conexión establecida con `playerId` |
+| `room_created` | Sala creada con `roomCode` |
+| `room_joined` | Unido a sala |
+| `state` | Estado actual de la sala y juego |
+| `game_selected` | Juego seleccionado |
+| `result` | Resultado de Piedra/Papel/Tijera |
+| `ttt_result` | Resultado de 3 en raya |
+| `oe_result` | Resultado de Par o Impar |
+| `dab_result` | Resultado de Puntos y Cajas |
+| `error` | Mensaje de error |
 
 ---
 
-## 📝 Notas Importantes
+## ❓ FAQ / Troubleshooting
 
-- ✅ Las salas se mantienen en memoria (se pierden al reiniciar el servidor)
-- ✅ Máximo 2 jugadores por sala
-- ✅ Los códigos de sala son únicos y de 6 caracteres alfanuméricos
-- ✅ Si un jugador se desconecta, la sala queda inválida
-- ✅ El servidor escucha en 0.0.0.0 para permitir conexiones externas
-- ⚠️ No revelar las elecciones hasta que ambos jugadores elijan
+### No puedo conectarme desde otro dispositivo
 
----
+1. Verifica que ambos estén en la **misma red WiFi/LAN**
+2. Usa la **IP local** del host (no `localhost`)
+3. Revisa el **firewall** del host
+4. Prueba desactivar temporalmente el antivirus
 
-## 🐛 Troubleshooting
+### El WebSocket no conecta
 
-### No puedo conectarme desde otro PC:
-- ✅ Verifica que ambos estén en la misma red WiFi/LAN
-- ✅ Desactiva el firewall temporalmente o permite el puerto 3000
-- ✅ Usa la IP local (192.168.x.x), NO uses localhost desde otro PC
-- ✅ Asegúrate de que el contenedor esté corriendo: `docker ps`
+- Asegúrate de usar `http://` (no `https://`) en red local
+- El navegador debe soportar WebSockets (todos los modernos lo hacen)
 
-### El contenedor no inicia:
-- ✅ Verifica que el puerto 3000 no esté en uso:
-  - **Mac/Linux:** `lsof -i :3000`
-  - **Windows:** `netstat -ano | findstr :3000`
-- ✅ Revisa logs del contenedor: `docker logs <container_id>`
-- ✅ Reconstruye la imagen: `docker build --no-cache -t rps-game .`
+### Docker: puerto ya en uso
 
-### Problemas de conexión WebSocket:
-- ✅ Asegúrate de usar `ws://` (no `wss://`) en red local
-- ✅ Verifica que el navegador permita WebSockets (Chrome, Firefox, Edge modernos)
-- ✅ Comprueba la consola del navegador (F12) para errores
+```bash
+# Ver qué usa el puerto
+netstat -ano | findstr :3000
 
-### El juego no responde:
-- ✅ Ambos jugadores deben estar en la sala antes de jugar
-- ✅ Espera a que aparezca "2/2" en la interfaz
-- ✅ Refresca la página si los botones no se habilitan
+# Matar el proceso o usar otro puerto
+docker run -d -p 3001:3000 --name juegos sala-juegos
+```
+
+### El juego no responde
+
+- Recarga la página (F5)
+- Verifica que el servidor esté corriendo
+- Revisa la consola del navegador (F12) para errores
 
 ---
 
 ## 📄 Licencia
 
-MIT - Úsalo libremente para aprender
+MIT License - Usa, modifica y comparte libremente.
 
 ---
 
-## 👨‍💻 Autor
+<div align="center">
 
-Raúl González
+**¡Diviértete jugando!** 🎮
+
+Hecho con ❤️ usando Node.js y WebSockets
+
+</div>

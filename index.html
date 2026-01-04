@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Piedra Papel Tijera (WebSockets)</title>
+  <title>Sala de Minijuegos</title>
   <link rel="stylesheet" href="/src/style.css" />
 </head>
 <body>
   <main class="card">
-    <h1>Piedra · Papel · Tijera</h1>
+    <h1>🎮 Sala de Minijuegos</h1>
 
     <div class="row">
       <button id="btnCreate">Crear sala</button>
@@ -18,13 +18,133 @@
 
     <p id="info">Conectando...</p>
 
-    <div class="row">
-      <button class="choice" data-choice="rock" disabled>🪨 Piedra</button>
-      <button class="choice" data-choice="paper" disabled>📄 Papel</button>
-      <button class="choice" data-choice="scissors" disabled>✂️ Tijera</button>
+    <!-- Selector de juego -->
+    <div id="gameSelector" style="display: none;">
+      <h3>Selecciona un juego</h3>
+      <div class="row game-row">
+        <button id="btnSelectRPS" class="game-select-btn">🪨📄✂️ Piedra Papel Tijera</button>
+        <button id="btnSelectTTT" class="game-select-btn">⭕❌ 3 en Raya</button>
+      </div>
+      <div class="row game-row">
+        <button id="btnSelectOE" class="game-select-btn">🔢 Par o Impar</button>
+        <button id="btnSelectDAB" class="game-select-btn">🔳 Puntos y Cajas</button>
+      </div>
     </div>
 
-    <pre id="log"></pre>
+    <!-- Marcador visual -->
+    <div id="scoreboard" style="display: none;">
+      <div class="player-score">
+        <div class="player-label">Tú <span id="p1Id" class="player-id-small"></span></div>
+        <div class="score-display" id="p1Score">0</div>
+        <div class="player-choice" id="p1Choice">?</div>
+      </div>
+      
+      <div class="vs">VS</div>
+      
+      <div class="player-score">
+        <div class="player-label">Rival <span id="p2Id" class="player-id-small"></span></div>
+        <div class="score-display" id="p2Score">0</div>
+        <div class="player-choice" id="p2Choice">?</div>
+      </div>
+    </div>
+
+    <!-- Resultado de la ronda -->
+    <div id="roundResult" class="round-result"></div>
+
+    <!-- Juego: Piedra Papel Tijera -->
+    <div id="rpsGame" style="display: none;">
+      <div class="row" id="rpsChoices">
+        <button class="choice" data-choice="rock">🪨 Piedra</button>
+        <button class="choice" data-choice="paper">📄 Papel</button>
+        <button class="choice" data-choice="scissors">✂️ Tijera</button>
+      </div>
+      <div id="rpsPlayAgain" style="display: none;">
+        <button id="btnPlayAgainRPS" class="reset-btn">🔁 Jugar otra ronda</button>
+      </div>
+      <button id="btnChangeGameRPS" class="change-game-btn">🔄 Cambiar de juego</button>
+    </div>
+
+    <!-- Juego: Par o Impar -->
+    <div id="oeGame" style="display: none;">
+      <div class="oe-info">
+        <p id="oeStatus">Elige si quieres Par o Impar</p>
+      </div>
+      
+      <!-- Fase 1: Elegir paridad -->
+      <div id="oeParityPhase">
+        <div class="row oe-parity-buttons">
+          <button id="btnEven" class="oe-btn oe-even">✌️ PAR</button>
+          <button id="btnOdd" class="oe-btn oe-odd">☝️ IMPAR</button>
+        </div>
+      </div>
+      
+      <!-- Fase 2: Elegir número -->
+      <div id="oeNumberPhase" style="display: none;">
+        <p class="oe-your-choice">Tu elección: <span id="oeMyParity">-</span></p>
+        <div class="oe-number-grid">
+          <button class="oe-number" data-number="1">1</button>
+          <button class="oe-number" data-number="2">2</button>
+          <button class="oe-number" data-number="3">3</button>
+          <button class="oe-number" data-number="4">4</button>
+          <button class="oe-number" data-number="5">5</button>
+          <button class="oe-number" data-number="6">6</button>
+          <button class="oe-number" data-number="7">7</button>
+          <button class="oe-number" data-number="8">8</button>
+          <button class="oe-number" data-number="9">9</button>
+          <button class="oe-number" data-number="10">10</button>
+        </div>
+      </div>
+      
+      <div id="oePlayAgain" style="display: none;">
+        <button id="btnResetOE" class="reset-btn">🔁 Jugar otra ronda</button>
+      </div>
+      <button id="btnChangeGameOE" class="change-game-btn">🔄 Cambiar de juego</button>
+    </div>
+
+    <!-- Juego: Puntos y Cajas (Dots and Boxes) -->
+    <div id="dabGame" style="display: none;">
+      <div class="dab-info">
+        <p id="dabTurn">Esperando...</p>
+        <div class="dab-scores">
+          <span id="dabScoreMe" class="dab-score-me">Tú: 0</span>
+          <span id="dabScoreRival" class="dab-score-rival">Rival: 0</span>
+        </div>
+      </div>
+      <div class="dab-board" id="dabBoard">
+        <!-- Generado dinámicamente -->
+      </div>
+      <div id="dabPlayAgain" style="display: none;">
+        <button id="btnResetDAB" class="reset-btn">🔁 Jugar otra ronda</button>
+      </div>
+      <button id="btnChangeGameDAB" class="change-game-btn">🔄 Cambiar de juego</button>
+    </div>
+
+    <!-- Juego: 3 en Raya -->
+    <div id="tttGame" style="display: none;">
+      <div class="ttt-info">
+        <p id="tttTurn">Esperando...</p>
+      </div>
+      <div class="ttt-board" id="tttBoard">
+        <button class="ttt-cell" data-cell="0"></button>
+        <button class="ttt-cell" data-cell="1"></button>
+        <button class="ttt-cell" data-cell="2"></button>
+        <button class="ttt-cell" data-cell="3"></button>
+        <button class="ttt-cell" data-cell="4"></button>
+        <button class="ttt-cell" data-cell="5"></button>
+        <button class="ttt-cell" data-cell="6"></button>
+        <button class="ttt-cell" data-cell="7"></button>
+        <button class="ttt-cell" data-cell="8"></button>
+      </div>
+      <div class="ttt-buttons">
+        <button id="btnResetTTT" class="reset-btn" style="display: none;">🔁 Nueva partida</button>
+        <button id="btnChangeGameTTT" class="change-game-btn">🔄 Cambiar de juego</button>
+      </div>
+    </div>
+
+    <details>
+      <summary>Ver log de eventos</summary>
+      <pre id="log"></pre>
+    </details>
   </main>
 
   <script src="/src/main.js"></script>
