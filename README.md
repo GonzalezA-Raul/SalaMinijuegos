@@ -54,7 +54,7 @@ Coloca 3 símbolos en línea (horizontal, vertical o diagonal) para ganar. Turno
 ## 📋 Estructura del Proyecto
 
 ```plaintext
-PiedraPapelTijera/
+SalaMinijuegos/
 ├── server.js        # Servidor WebSocket + Express (lógica de todos los juegos)
 ├── index.html       # UI principal con todos los juegos
 ├── src/
@@ -77,7 +77,7 @@ PiedraPapelTijera/
 
 ```bash
 # 1. Clonar o descargar el proyecto
-git clone <tu-repo> && cd PiedraPapelTijera
+git clone <tu-repo> && cd SalaMinijuegos
 
 # 2. Instalar dependencias
 npm install
